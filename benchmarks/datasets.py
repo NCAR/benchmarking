@@ -105,10 +105,10 @@ def timeseries(
         dims=['time', 'lon', 'lat'],
         coords={'time': times, 'lon': lons, 'lat': lats},
         name='sst',
-        encoding=None,
         attrs={'units': 'baz units', 'description': 'a description'},
     ).to_dataset()
     ds.attrs = {'history': 'created for compute benchmarking'}
+    ds.encoding = None
 
     return ds
 

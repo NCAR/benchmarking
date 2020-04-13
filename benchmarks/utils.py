@@ -8,6 +8,7 @@ import pandas as pd
 from distributed import Client, wait
 from distributed.utils import format_bytes
 
+from . import __version__
 from .datasets import timeseries
 from .ops import anomaly, climatology, spatial_mean, temporal_mean
 
@@ -125,6 +126,7 @@ class Runner:
         num_nodes = parameters['number_of_nodes']
         chunking_schemes = parameters['chunking_scheme']
         chsz = parameters['chunk_size']
+        pb_version = __version__
 
         for wpn in num_workers:
             self.create_cluster(
@@ -181,6 +183,7 @@ class Runner:
                                 maxmemory_per_node=maxmemory_per_node,
                                 maxcore_per_node=maxcore_per_node,
                                 spil=spil,
+                                pb_version=pb_version,
                             ):
                                 wait(op(ds).persist())
                         # kills ds, and every other dependent computation
