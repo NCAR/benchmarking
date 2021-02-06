@@ -11,7 +11,6 @@ from distributed.utils import format_bytes
 from fsspec.implementations.local import LocalFileSystem
 
 from . import __version__
-from .conda_env_export import env_dump
 from .datasets import timeseries
 from .ops import (
     anomaly,
@@ -46,7 +45,6 @@ class DiagnosticTimer:
         self.diagnostics.append(kwargs)
 
     def dataframe(self):
-
         return pd.DataFrame(self.diagnostics)
 
 
@@ -147,8 +145,6 @@ class Runner:
         fixed_totalsize = parameters['fixed_totalsize']
         chsz = parameters['chunk_size']
         local_dir = self.params['local_dir']
-        env_export_filename = f"{output_dir}/env_export_{now.strftime('%Y-%m-%d_%H-%M-%S')}.yml"
-        env_dump('./binder/environment.yml', env_export_filename)
         for wpn in num_workers:
             self.create_cluster(
                 job_scheduler=job_scheduler,
@@ -257,7 +253,7 @@ class Runner:
                                         elif op.__name__ == 'deletefile':
                                             ds = op(fs, io_format, root, filename)
                                         else:
-                                            op(ds)
+                                            op(ds).persist()
                         # kills ds, and every other dependent computation
                         logger.warning('Computation done')
                         self.client.cancel(ds)

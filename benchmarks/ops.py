@@ -206,6 +206,6 @@ def get_version(file=sys.stdout):
             except Exception:
                 deps_blob.append(modname)
                 deps_ver.append('installed')
-    for k, stat in zip(deps_blob, deps_ver):
-        print(f'{k}: {stat}', file=file)
+    # for k, stat in zip(deps_blob, deps_ver):
+    #    print(f'{k}: {stat}', file=file)
     return deps_blob, deps_ver
